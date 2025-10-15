@@ -1,107 +1,47 @@
+# Apply.py
 import streamlit as st
-import re
-from datetime import datetime
+from test1.headfooter import render_header, render_footer
 
-st.set_page_config(page_title="Apply - Rally City", layout="centered")
+st.set_page_config(page_title="Rally City - Apply")
 
-# Header
-st.markdown(
-    """
-    <style>
-    .header {
-        font-size: 2rem;
-        font-weight: bold;
-        margin-bottom: 0.5rem;
-    }
-    .nav {
-        margin-bottom: 2rem;
-    }
-    .nav a {
-        margin-right: 1.5rem;
-        text-decoration: none;
-        color: #0073e6;
-        font-weight: 600;
-    }
-    .nav a.current {
-        font-weight: bold;
-        text-decoration: underline;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True,
-)
+with open("assets/style.css") as f:
+    st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
-st.markdown(
-    """
-    <div class="header">Rally City</div>
-    <nav class="nav">
-        <a href="home.html">Home</a>
-        <a href="gallery.html">Gallery</a>
-        <a href="apply.html" class="current">Apply</a>
-    </nav>
-    """,
-    unsafe_allow_html=True,
-)
+render_header("apply")
 
-st.title("Participant Application")
-st.write("Fill out the form below to apply to participate. Fields marked with * are required.")
+st.markdown("<main class='container'>", unsafe_allow_html=True)
+st.markdown("<h1>Participant Application</h1>", unsafe_allow_html=True)
+st.markdown("<p class='lead'>Fill out the form below to apply to participate. Fields marked with * are required.</p>", unsafe_allow_html=True)
 
 with st.form("application_form"):
-    st.subheader("Personal details")
-    full_name = st.text_input("Full name *", placeholder="Jane Doe")
-    email = st.text_input("Email *", placeholder="name@example.com")
-    phone = st.text_input("Phone", placeholder="+1 555-555-5555")
-
-    st.subheader("Vehicle & category")
-    vehicle = st.text_input("Vehicle make & model *", placeholder="Ford Fiesta")
-    category = st.selectbox(
-        "Category *",
-        options=["", "Novice", "Experienced", "Vintage"],
-        index=0,
-    )
-
-    st.subheader("Emergency contact")
-    emergency_name = st.text_input("Contact name *")
-    emergency_phone = st.text_input("Contact phone *")
-
+    full_name = st.text_input("Full name *", help="Enter your full name", max_chars=50)
+    email = st.text_input("Email *", help="Enter a valid email address")
+    phone = st.text_input("Phone", help="Format: +1 555-555-5555 (optional)")
+    vehicle = st.text_input("Vehicle make & model *", max_chars=50)
+    category = st.selectbox("Category *", ["", "Novice", "Experienced", "Vintage"])
+    emergency_name = st.text_input("Emergency contact name *", max_chars=50)
+    emergency_phone = st.text_input("Emergency contact phone *", help="Format: +1 555-555-5555")
     submitted = st.form_submit_button("Submit application")
-    reset = st.form_submit_button("Reset")
 
-    if reset:
-        st.experimental_rerun()
+if submitted:
+    # Basic validation
+    if not full_name or len(full_name) < 2:
+        st.error("Please enter a valid full name (at least 2 characters).")
+    elif not email or "@" not in email:
+        st.error("Please enter a valid email address.")
+    elif not vehicle:
+        st.error("Vehicle make & model is required.")
+    elif category == "":
+        st.error("Please select a category.")
+    elif not emergency_name:
+        st.error("Emergency contact name is required.")
+    elif not emergency_phone:
+        st.error("Emergency contact phone is required.")
+    else:
+        # Here you could save the data or send email, etc.
+        st.success("Thank you! Your application has been submitted.")
+        # Optionally clear the form or disable inputs after submit
 
-    if submitted:
-        errors = []
+st.markdown("</main>", unsafe_allow_html=True)
 
-        if not full_name or len(full_name) < 2:
-            errors.append("Full name is required and must be at least 2 characters.")
-        if not email or not re.match(r"[^@]+@[^@]+\.[^@]+", email):
-            errors.append("Valid email is required.")
-        if phone and not re.match(r"^\+?[0-9\-\s]{7,20}$", phone):
-            errors.append("Phone number format is invalid.")
-        if not vehicle:
-            errors.append("Vehicle make & model is required.")
-        if not category:
-            errors.append("Category is required.")
-        if not emergency_name:
-            errors.append("Emergency contact name is required.")
-        if not emergency_phone or not re.match(r"^\+?[0-9\-\s]{7,20}$", emergency_phone):
-            errors.append("Valid emergency contact phone is required.")
-
-        if errors:
-            for err in errors:
-                st.error(err)
-        else:
-            st.success("Application submitted successfully!")
-            st.write("### Submitted details:")
-            st.write(f"**Full name:** {full_name}")
-            st.write(f"**Email:** {email}")
-            st.write(f"**Phone:** {phone or 'N/A'}")
-            st.write(f"**Vehicle:** {vehicle}")
-            st.write(f"**Category:** {category}")
-            st.write(f"**Emergency contact name:** {emergency_name}")
-            st.write(f"**Emergency contact phone:** {emergency_phone}")
-
-# Footer with current year
-current_year = datetime.now().year
-st.markdown(f"<footer style='margin-top:3rem; text-align:center;'>© {current_year} Rally City.</footer>", unsafe_allow_html=True)
+render_footer()
