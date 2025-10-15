@@ -24,23 +24,23 @@
     <h1>Participant Application</h1>
     <p class="lead">Fill out the form below to apply to participate. Fields marked with * are required.</p>
 
-    <form id="application-form" novalidate>
+    <form id="application-form">
       <fieldset>
         <legend>Personal details</legend>
         <label for="fullName">Full name *</label>
-        <input id="fullName" name="fullName" required minlength="2" placeholder="Jane Doe">
+        <input id="fullName" name="fullName" type="text" required minlength="2" placeholder="Jane Doe" aria-required="true">
 
         <label for="email">Email *</label>
-        <input id="email" name="email" type="email" required placeholder="name@example.com">
+        <input id="email" name="email" type="email" required placeholder="name@example.com" aria-required="true">
 
         <label for="phone">Phone</label>
-        <input id="phone" name="phone" type="tel" pattern="^\\+?[0-9\-\s]{7,20}$" placeholder="+1 555-555-5555">
+        <input id="phone" name="phone" type="tel" inputmode="tel" pattern="^\\+?[0-9\-\s]{7,20}$" title="Digits, spaces and dashes allowed; optional leading +; 7-20 characters" placeholder="+1 555-555-5555">
       </fieldset>
 
       <fieldset>
         <legend>Vehicle & category</legend>
-        <label for="vehicle">Vehicle make & model *</label>
-        <input id="vehicle" name="vehicle" required placeholder="Ford Fiesta">
+  <label for="vehicle">Vehicle make & model *</label>
+  <input id="vehicle" name="vehicle" type="text" required placeholder="Ford Fiesta" aria-required="true">
 
         <label for="category">Category *</label>
         <select id="category" name="category" required>
@@ -54,10 +54,10 @@
       <fieldset>
         <legend>Emergency contact</legend>
         <label for="emergencyName">Contact name *</label>
-        <input id="emergencyName" name="emergencyName" required>
+        <input id="emergencyName" name="emergencyName" type="text" required aria-required="true" placeholder="Name">
 
         <label for="emergencyPhone">Contact phone *</label>
-        <input id="emergencyPhone" name="emergencyPhone" required pattern="^\\+?[0-9\-\s]{7,20}$">
+        <input id="emergencyPhone" name="emergencyPhone" type="tel" required inputmode="tel" pattern="^\\+?[0-9\-\s]{7,20}$" title="Digits, spaces and dashes allowed; optional leading +; 7-20 characters" aria-required="true" placeholder="+1 555-555-5555">
       </fieldset>
 
       <p class="form-actions">
@@ -65,7 +65,7 @@
         <button type="reset" class="btn btn-outline">Reset</button>
       </p>
 
-      <div id="form-message" role="status" aria-live="polite"></div>
+      <div id="form-message" role="status" aria-live="polite" hidden></div>
     </form>
   </main>
 
@@ -75,6 +75,5 @@
     </div>
   </footer>
 
-  <script src="../js/site.js" defer></script>
 </body>
 </html>
