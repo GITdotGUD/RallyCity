@@ -1,4 +1,7 @@
-<!doctype html>
+import streamlit as st
+
+html_code = """
+
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -7,6 +10,10 @@
   <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
+
+  <iframe src="https://rallycity-pig43fz6amtfxis45npebk.streamlit.app/" width="100%" height="600px" frameborder="0">Your browser does not support iframes.</iframe>
+
+
   <header class="site-header">
     <div class="container header-inner">
       <a href="home.html" class="brand">Rally City</a>
@@ -78,3 +85,6 @@
   <script src="../js/site.js" defer></script>
 </body>
 </html>
+
+"""
+st.markdown(html_code, unsafe_allow_html=True)
