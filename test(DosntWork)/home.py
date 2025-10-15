@@ -1,4 +1,3 @@
-# Home.py
 import streamlit as st
 from test1.headfooter import render_header, render_footer
 
