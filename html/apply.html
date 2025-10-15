@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Apply - Rally City</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="home.html" class="brand">Rally City</a>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="home.html">Home</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="apply.html" aria-current="page">Apply</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container form-page">
+    <h1>Participant Application</h1>
+    <p class="lead">Fill out the form below to apply to participate. Fields marked with * are required.</p>
+
+    <form id="application-form" novalidate>
+      <fieldset>
+        <legend>Personal details</legend>
+        <label for="fullName">Full name *</label>
+        <input id="fullName" name="fullName" required minlength="2" placeholder="Jane Doe">
+
+        <label for="email">Email *</label>
+        <input id="email" name="email" type="email" required placeholder="name@example.com">
+
+        <label for="phone">Phone</label>
+        <input id="phone" name="phone" type="tel" pattern="^\\+?[0-9\-\s]{7,20}$" placeholder="+1 555-555-5555">
+      </fieldset>
+
+      <fieldset>
+        <legend>Vehicle & category</legend>
+        <label for="vehicle">Vehicle make & model *</label>
+        <input id="vehicle" name="vehicle" required placeholder="Ford Fiesta">
+
+        <label for="category">Category *</label>
+        <select id="category" name="category" required>
+          <option value="">Choose a category</option>
+          <option>Novice</option>
+          <option>Experienced</option>
+          <option>Vintage</option>
+        </select>
+      </fieldset>
+
+      <fieldset>
+        <legend>Emergency contact</legend>
+        <label for="emergencyName">Contact name *</label>
+        <input id="emergencyName" name="emergencyName" required>
+
+        <label for="emergencyPhone">Contact phone *</label>
+        <input id="emergencyPhone" name="emergencyPhone" required pattern="^\\+?[0-9\-\s]{7,20}$">
+      </fieldset>
+
+      <p class="form-actions">
+        <button type="submit" class="btn">Submit application</button>
+        <button type="reset" class="btn btn-outline">Reset</button>
+      </p>
+
+      <div id="form-message" role="status" aria-live="polite"></div>
+    </form>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>&copy; <span></span>2025 Rally City.</p>
+    </div>
+  </footer>
+</footer>
+
+<script>
+// client-side validation for the application form
+(function(){
+  const form = document.getElementById('application-form');
+  const msg = document.getElementById('form-message');
+  const phonePattern = /^\+?[0-9\-\s]{7,20}$/;
+
+  function clearMessage(){ msg.textContent = ''; msg.className = ''; }
+
+  function showError(text){
+    msg.className = 'error';
+    msg.textContent = text;
+    msg.focus && msg.focus();
+  }
+
+  function validateEmail(value){
+    if (!value) return false;
+    try {
+      const input = document.createElement('input');
+      input.type = 'email'; input.value = value;
+      return input.checkValidity();
+    } catch(e){
+      return /.+@.+\..+/.test(value);
+    }
+  }
+
+  form.addEventListener('submit', function(evt){
+    clearMessage();
+    const fields = {
+      fullName: document.getElementById('fullName'),
+      email: document.getElementById('email'),
+      phone: document.getElementById('phone'),
+      vehicle: document.getElementById('vehicle'),
+      category: document.getElementById('category'),
+      emergencyName: document.getElementById('emergencyName'),
+      emergencyPhone: document.getElementById('emergencyPhone')
+    };
+
+    // required checks
+    if (!fields.fullName.value || fields.fullName.value.trim().length < 2){
+      evt.preventDefault(); showError('Please enter your full name (at least 2 characters).'); fields.fullName.focus(); return;
+    }
+    if (!validateEmail(fields.email.value)){
+      evt.preventDefault(); showError('Please enter a valid email address.'); fields.email.focus(); return;
+    }
+    if (!fields.vehicle.value.trim()){
+      evt.preventDefault(); showError('Please enter your vehicle make & model.'); fields.vehicle.focus(); return;
+    }
+    if (!fields.category.value){
+      evt.preventDefault(); showError('Please choose a category.'); fields.category.focus(); return;
+    }
+    if (!fields.emergencyName.value.trim()){
+      evt.preventDefault(); showError('Please provide an emergency contact name.'); fields.emergencyName.focus(); return;
+    }
+    if (!phonePattern.test(fields.emergencyPhone.value || '')){
+      evt.preventDefault(); showError('Please provide a valid emergency contact phone number.'); fields.emergencyPhone.focus(); return;
+    }
+    if (fields.phone.value && !phonePattern.test(fields.phone.value)){
+      evt.preventDefault(); showError('Please provide a valid phone number or leave it blank.'); fields.phone.focus(); return;
+    }
+
+    // If we get here, allow submit
+    // Display a message when the form would submit
+    msg.className = 'success';
+    msg.textContent = 'Submitting...';
+  });
+
+  // Clear messages on reset
+  form.addEventListener('reset', function(){
+    setTimeout(clearMessage, 0);
+  });
+})();
+</script>
+
+</body>
+</html>

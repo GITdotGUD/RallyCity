@@ -1,0 +1,49 @@
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Arial; color: #111; }
+
+:root {
+  --accent: #b41f1f;
+  --muted: #6b6b6b;
+  --max-width: 1100px;
+  --gutter: 1rem;
+}
+
+.container { max-width: var(--max-width); margin: 0 auto; padding: 1rem; }
+
+header.site-header { background: #fff; border-bottom: 1px solid #eee; position: sticky; top: 0; }
+.header-inner { display: flex; align-items: center; justify-content: space-between; gap: var(--gutter); padding: .5rem 1rem; }
+.brand { color: var(--accent); font-weight: 700; text-decoration: none; }
+
+.main-nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: .75rem; }
+.main-nav a { text-decoration: none; color: inherit; padding: .35rem .5rem; border-radius: 4px; }
+.main-nav a[aria-current="page"], .main-nav a:hover { background: #f4f4f4; }
+
+.nav-toggle { display: none; }
+
+.hero { padding: 2.5rem 0; }
+.hero h1 { margin: 0 0 .25rem 0; }
+.lead { color: var(--muted); }
+
+.btn { display: inline-block; padding: .5rem .9rem; background: var(--accent); color: #fff; border-radius: 6px; text-decoration: none; }
+.btn-outline { background: transparent; border: 2px solid var(--accent); color: var(--accent); padding: .45rem .85rem; }
+
+.grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+
+.gallery-grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+.gallery-grid figure { margin: 0; cursor: pointer; background: #fff; padding: .5rem; border-radius: 6px; }
+.gallery-grid img { width: 100%; height: 140px; object-fit: cover; border-radius: 6px; display: block; }
+.gallery-grid figcaption { margin-top: .5rem; color: var(--muted); font-size: .95rem; }
+
+.lightbox { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; background: rgba(0,0,0,0.6); }
+.lightbox[aria-hidden="false"] { display: flex; }
+.lightbox img { max-width: 90%; max-height: 70vh; border-radius: 6px; }
+.lb-close { position: absolute; right: 1rem; top: 1rem; background: transparent; color: #fff; border: 0; font-size: 1.5rem; }
+
+form { background: #fff; padding: 1rem; border-radius: 6px; max-width: 720px; }
+label { display: block; margin-top: .6rem; font-weight: 600; }
+input, select, textarea { width: 100%; padding: .45rem; margin-top: .25rem; border: 1px solid #ddd; border-radius: 6px; }
+
+.form-actions { margin-top: 1rem; }
+
+footer.site-footer { border-top: 1px solid #eee; padding: 1rem 0; margin-top: 2rem; }
+
